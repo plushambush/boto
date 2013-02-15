@@ -153,7 +153,7 @@ class BlockDeviceMapping(dict):
                 params['%s.VirtualName' % pre] = block_dev.ephemeral_name
             else:
                 if block_dev.no_device:
-                    params['%s.Ebs.NoDevice' % pre] = 'true'
+                    params['%s.NoDevice' % pre] = ''
                 else:
                     if block_dev.snapshot_id:
                         params['%s.Ebs.SnapshotId' % pre] = block_dev.snapshot_id
@@ -167,12 +167,4 @@ class BlockDeviceMapping(dict):
                         params['%s.Ebs.VolumeType' % pre] = block_dev.volume_type
                     if block_dev.iops is not None:
                         params['%s.Ebs.Iops' % pre] = block_dev.iops
-                    if block_dev.tier_type is not None:
-                        params['%s.Ebs.TierType' % pre] = block_dev.tier_type
-                    if block_dev.tier_name is not None:
-                        params['%s.Ebs.TierName' % pre] = block_dev.tier_name
-                    if block_dev.tier_replication is not None:
-                        params['%s.Ebs.TierReplication' % pre] = block_dev.tier_replication
-                    if block_dev.attach_type:
-                        params['%s.Ebs.AttachType' % pre] = block_dev.attach_type
             i += 1
