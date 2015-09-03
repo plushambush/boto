@@ -4,11 +4,12 @@
 %endif
 
 %define pkgname boto
+%define buildid %{nil}
 
 Summary:        A simple lightweight interface to Amazon Web Services
 Name:           python-%{pkgname}
 Version:        2.12.0
-Release:        CROC2%{?dist}
+Release:        CROC2%{?buildid}%{?dist}
 Epoch:          1441065600
 
 Group:          Development/Languages
