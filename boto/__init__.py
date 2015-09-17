@@ -478,6 +478,41 @@ def connect_ec2_endpoint(url, aws_access_key_id=None,
     return(connect_ec2(**kwargs))
 
 
+def connect_cloudwatch_endpoint(url, aws_access_key_id=None,
+                         aws_secret_access_key=None,
+                         **kwargs):
+    """
+    Connect to an CloudWatch Api endpoint.  Additional arguments are passed
+    through to connect_cloudwatch.
+
+    :type url: string
+    :param url: A url for the CloudWatch api endpoint to connect to
+
+    :type aws_access_key_id: string
+    :param aws_access_key_id: Your AWS Access Key ID
+
+    :type aws_secret_access_key: string
+    :param aws_secret_access_key: Your AWS Secret Access Key
+
+    :rtype: :class:`boto.ec2.cloudwatch.CloudWatchConnection`
+    :return: A connection to Eucalyptus Monitoring service
+    """
+    from boto.ec2.regioninfo import RegionInfo
+
+    purl = urlparse.urlparse(url)
+    kwargs['port'] = purl.port
+    kwargs['path'] = purl.path
+    if not 'is_secure' in kwargs:
+        kwargs['is_secure'] = (purl.scheme == "https")
+
+    kwargs['region'] = RegionInfo(name=purl.hostname,
+                                  endpoint=purl.hostname)
+    kwargs['aws_access_key_id'] = aws_access_key_id
+    kwargs['aws_secret_access_key'] = aws_secret_access_key
+
+    return(connect_cloudwatch(**kwargs))
+
+
 def connect_walrus(host=None, aws_access_key_id=None,
                    aws_secret_access_key=None,
                    port=8773, path='/services/Walrus', is_secure=False,
