@@ -9,7 +9,7 @@
 Summary:        A simple lightweight interface to Amazon Web Services
 Name:           python-%{pkgname}
 Version:        2.12.0
-Release:        CROC2%{?buildid}%{?dist}
+Release:        CROC3%{?buildid}%{?dist}
 Epoch:          1441065600
 
 Group:          Development/Languages
@@ -54,6 +54,11 @@ use, lightweight wrapper around the Amazon services.
 [ "%buildroot" = "/" ] || rm -rf "%buildroot"
 
 %changelog
+* Thu Sep 17 2015 Mikhail Ushanov <gm.mephisto@gmail.com> - 2.12.0-3
+- Added 'connect_cloudwatch_endpoint' function
+- 'NoDevice' option moved from 'EBS' to 'BlockDeviceMapping'
+- makefile: ability to build develop rpm package
+
 * Wed Aug 19 2015 Mikhail Ushanov <gm.mephisto@gmail.com> - 2.12.0-2
 - Fix duplicate private_ip_address field
 - Restore 'epoch' field for overriding default python-boto package
