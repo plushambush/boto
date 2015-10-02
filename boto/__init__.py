@@ -513,6 +513,74 @@ def connect_cloudwatch_endpoint(url, aws_access_key_id=None,
     return(connect_cloudwatch(**kwargs))
 
 
+def connect_vpc_endpoint(url, aws_access_key_id=None,
+                         aws_secret_access_key=None,
+                         **kwargs):
+    """
+    Connect to an VPC Api endpoint.  Additional arguments are passed
+    through to connect_vpc.
+
+    :type url: string
+    :param url: A url for the VPC api endpoint to connect to
+
+    :type aws_access_key_id: string
+    :param aws_access_key_id: Your AWS Access Key ID
+
+    :type aws_secret_access_key: string
+    :param aws_secret_access_key: Your AWS Secret Access Key
+
+    :rtype: :class:`boto.vpc.VPCConnection`
+    :return: A connection to VPC
+    """
+    from boto.ec2.regioninfo import RegionInfo
+
+    purl = urlparse.urlparse(url)
+    kwargs['port'] = purl.port
+    kwargs['path'] = purl.path
+    if not 'is_secure' in kwargs:
+        kwargs['is_secure'] = (purl.scheme == "https")
+
+    kwargs['region'] = RegionInfo(name=purl.hostname,
+                                  endpoint=purl.hostname)
+    kwargs['aws_access_key_id'] = aws_access_key_id
+    kwargs['aws_secret_access_key'] = aws_secret_access_key
+
+    return(connect_vpc(**kwargs))
+
+
+def connect_s3_endpoint(url, aws_access_key_id=None,
+                         aws_secret_access_key=None,
+                         **kwargs):
+    """
+    Connect to an S3 Api endpoint.  Additional arguments are passed
+    through to connect_s3.
+
+    :type url: string
+    :param url: A url for the S3 api endpoint to connect to
+
+    :type aws_access_key_id: string
+    :param aws_access_key_id: Your AWS Access Key ID
+
+    :type aws_secret_access_key: string
+    :param aws_secret_access_key: Your AWS Secret Access Key
+
+    :rtype: :class:`boto.s3.connection.S3Connection`
+    :return: A connection to our S3
+    """
+
+    purl = urlparse.urlparse(url)
+    kwargs['port'] = purl.port
+    kwargs['path'] = purl.path
+    if not 'is_secure' in kwargs:
+        kwargs['is_secure'] = (purl.scheme == "https")
+
+    kwargs['host'] = purl.hostname
+    kwargs['aws_access_key_id'] = aws_access_key_id
+    kwargs['aws_secret_access_key'] = aws_secret_access_key
+
+    return(connect_s3(**kwargs))
+
+
 def connect_walrus(host=None, aws_access_key_id=None,
                    aws_secret_access_key=None,
                    port=8773, path='/services/Walrus', is_secure=False,
