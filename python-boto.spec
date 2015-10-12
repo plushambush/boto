@@ -9,7 +9,7 @@
 Summary:        A simple lightweight interface to Amazon Web Services
 Name:           python-%{pkgname}
 Version:        2.12.0
-Release:        CROC3%{?buildid}%{?dist}
+Release:        CROC4%{?buildid}%{?dist}
 Epoch:          1441065600
 
 Group:          Development/Languages
@@ -54,6 +54,10 @@ use, lightweight wrapper around the Amazon services.
 [ "%buildroot" = "/" ] || rm -rf "%buildroot"
 
 %changelog
+* Mon Oct 12 2015 Vadim Radovel <vadim@radovel.ru> - 2.12.0-4
+- Added Import/Export API.
+- Shortcuts for connect to s3 and vpc endpoints.
+
 * Thu Sep 17 2015 Mikhail Ushanov <gm.mephisto@gmail.com> - 2.12.0-3
 - Added 'connect_cloudwatch_endpoint' function
 - 'NoDevice' option moved from 'EBS' to 'BlockDeviceMapping'
