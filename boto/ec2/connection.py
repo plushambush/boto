@@ -3934,24 +3934,6 @@ class EC2Connection(AWSQueryConnection):
                   'NetworkId': network_id}
         return self.get_status('DetachVirtualNetwork', params, verb='POST')
 
-    def snapshot_instance(self, instance_id, description = None):
-        """
-        Create an image from a stopped instance.
-
-        :type instance_id: string
-        :param instance_id: The instance ID.
-
-        :type description: string
-        :param description: The image description.
-        """
-
-        params = {'InstanceId' : instance_id}
-
-        if description is not None:
-            params['ImageDescription'] = description
-
-        return self.get_object('SnapshotInstance', params, PlainXmlDict, verb='POST')
-
     def suspend_instances(self, instance_ids):
         """
         Suspend the instances specified
