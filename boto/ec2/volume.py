@@ -29,28 +29,6 @@ from boto.ec2.tag import Tag
 from boto.ec2.ec2object import EC2Object, TaggedEC2Object
 
 
-class TierType(EC2Object):
-    def __init__(self, connection=None):
-        EC2Object.__init__(self, connection)
-        self.id = None
-        self.tier_name = None
-        self.replication = None
-        self.is_default = False
-
-    def __repr__(self):
-        return "Tier type {0}".format(self.id)
-
-    def endElement(self, name, value, connection):
-        if name == "id":
-            self.id = value
-        elif name == "tierName":
-            self.tier_name = value
-        elif name == "replication":
-            self.replication = (value.lower() != "false")
-        elif name == "isDefault":
-            self.is_default = (value.lower() != "false")
-
-
 class Volume(TaggedEC2Object):
     """
     Represents an EBS volume.
@@ -79,9 +57,6 @@ class Volume(TaggedEC2Object):
         self.zone = None
         self.type = None
         self.iops = None
-        self.tier_type = None
-        self.tier_name = None
-        self.tier_replication = None
         self.size_in_bytes = None
         self.description = None
 
@@ -119,12 +94,6 @@ class Volume(TaggedEC2Object):
             self.type = value
         elif name == 'iops':
             self.iops = int(value)
-        elif name == 'tierType':
-            self.tier_type = value
-        elif name == 'tierName':
-            self.tier_name = value
-        elif name == 'tierReplication':
-            self.tier_replication = (value.lower() == 'true')
         elif name == 'sizeInBytes':
             self.size_in_bytes = int(value)
         elif name == 'description':
@@ -314,16 +283,13 @@ class VolumeAttribute:
         self.attrs = {}
 
     def startElement(self, name, attrs, connection):
-        if name in ('autoEnableIO', 'tierType', 'tierName', 'replication'):
+        if name == 'autoEnableIO':
             self._key_name = name
         return None
 
     def endElement(self, name, value, connection):
         if name == 'value':
-            if self._key_name in ('tierType', 'tierName'):
-                self.attrs[self._key_name] = value
-            else:
-                self.attrs[self._key_name] = (value.lower() == 'true')
+            self.attrs[self._key_name] = (value.lower() == 'true')
         elif name == 'volumeId':
             self.id = value
         else:
