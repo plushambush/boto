@@ -47,6 +47,7 @@ class VPC(TaggedEC2Object):
         self.availability_zone = None
         self.is_default = None
         self.instance_tenancy = None
+        self.description = None
 
     def __repr__(self):
         return 'VPC:%s' % self.id
@@ -66,6 +67,8 @@ class VPC(TaggedEC2Object):
             self.is_default = True if value == 'true' else False
         elif name == 'instanceTenancy':
             self.instance_tenancy = value
+        elif name == 'description':
+            self.description = value
         else:
             setattr(self, name, value)
 
@@ -91,17 +94,21 @@ class VPCAttribute(object):
         self.vpc_id = None
         self.enable_dns_hostnames = None
         self.enable_dns_support = None
+        self.description = None
         self._current_attr = None
 
     def startElement(self, name, attrs, connection):
-        if name in ('enableDnsHostnames', 'enableDnsSupport'):
+        if name in ('enableDnsHostnames', 'enableDnsSupport',
+                    'description'):
             self._current_attr = name
 
     def endElement(self, name, value, connection):
         if name == 'vpcId':
             self.vpc_id = value
         elif name == 'value':
-            if value == 'true':
+            if self._current_attr == 'description':
+                self.description = value
+            elif value == 'true':
                 value = True
             else:
                 value = False
