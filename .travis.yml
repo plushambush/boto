@@ -1,8 +1,11 @@
+sudo: false
 language: python
 python:
   - "2.6"
   - "2.7"
-before_install:
-  - sudo apt-get install swig
-install: pip install --use-mirrors -r requirements.txt
+addons:
+  apt:
+    packages:
+    - swig
+install: pip install -r requirements.txt
 script: python tests/test.py unit
