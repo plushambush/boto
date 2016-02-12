@@ -9,7 +9,7 @@
 Summary:        A simple lightweight interface to Amazon Web Services
 Name:           python-%{pkgname}
 Version:        2.12.0
-Release:        CROC4%{?buildid}%{?dist}
+Release:        CROC5%{?buildid}%{?dist}
 Epoch:          1441065600
 
 Group:          Development/Languages
@@ -54,6 +54,10 @@ use, lightweight wrapper around the Amazon services.
 [ "%buildroot" = "/" ] || rm -rf "%buildroot"
 
 %changelog
+* Fri Feb 12 2016 Mikhail Ushanov <gm.mephisto@gmail.com> - 2.12.0-5
+- Added VPC description field
+- Changed travis-ci build to container-based
+
 * Mon Oct 12 2015 Vadim Radovel <vadim@radovel.ru> - 2.12.0-4
 - Added Import/Export API.
 - Shortcuts for connect to s3 and vpc endpoints.
