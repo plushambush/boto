@@ -9,7 +9,7 @@
 Summary:        A simple lightweight interface to Amazon Web Services
 Name:           python-%{pkgname}
 Version:        2.12.0
-Release:        CROC5%{?buildid}%{?dist}
+Release:        CROC6%{?buildid}%{?dist}
 Epoch:          1441065600
 
 Group:          Development/Languages
@@ -54,6 +54,11 @@ use, lightweight wrapper around the Amazon services.
 [ "%buildroot" = "/" ] || rm -rf "%buildroot"
 
 %changelog
+* Mon Apr 04 2016 Mikhail Ushanov <gm.mephisto@gmail.com> - 2.12.0-6
+- ec2: remove 'snapshot_instance' c2-specific API method
+- Fixed a date bug in the trim_snapshots tests.
+- Added targets for building rpms in copr
+
 * Fri Feb 12 2016 Mikhail Ushanov <gm.mephisto@gmail.com> - 2.12.0-5
 - Added VPC description field
 - Changed travis-ci build to container-based
