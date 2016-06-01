@@ -9,7 +9,7 @@
 Summary:        A simple lightweight interface to Amazon Web Services
 Name:           python-%{pkgname}
 Version:        2.12.0
-Release:        CROC6%{?buildid}%{?dist}
+Release:        CROC7%{?buildid}%{?dist}
 Epoch:          1441065600
 
 Group:          Development/Languages
