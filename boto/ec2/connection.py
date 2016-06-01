@@ -3865,8 +3865,10 @@ class EC2Connection(AWSQueryConnection):
                                  verb='POST')
         return image
 
-    def describe_account_attributes(self, attribute_names=None):
+    def describe_account_attributes(self, attribute_names=None, availability_zone=None):
         params = {}
+        if availability_zone:
+            params["AvailabilityZone"] = availability_zone
         if attribute_names is not None:
             self.build_list_params(params, attribute_names, 'AttributeName')
         return self.get_list('DescribeAccountAttributes', params,
