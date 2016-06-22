@@ -235,12 +235,6 @@ class VolumeAttributeTests(unittest.TestCase):
         self.volume_attribute.endElement("value", "false", None)
         self.assertEqual(self.volume_attribute.attrs['other_key_name'], False)
 
-    def test_endElement_with_name_value_and_value_is_not_bool(self):
-        for attr in ("tierName", "tierType"):
-            self.volume_attribute._key_name = attr
-            self.volume_attribute.endElement("value", "tier-XXXXXX", None)
-            self.assertEqual(self.volume_attribute.attrs[attr], "tier-XXXXXX")
-
     def test_endElement_with_name_value_and_value_is_bool(self):
         for attr in ("autoEnableIO", "replication"):
             self.volume_attribute._key_name = attr

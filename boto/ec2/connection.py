@@ -41,7 +41,7 @@ from boto.ec2.instance import Reservation, Instance
 from boto.ec2.instance import ConsoleOutput, InstanceAttribute
 from boto.ec2.keypair import KeyPair
 from boto.ec2.address import Address
-from boto.ec2.volume import Volume, VolumeAttribute, AttachmentSet, TierType
+from boto.ec2.volume import Volume, VolumeAttribute, AttachmentSet
 from boto.ec2.snapshot import Snapshot
 from boto.ec2.snapshot import SnapshotAttribute
 from boto.ec2.zone import Zone
@@ -2078,12 +2078,12 @@ class EC2Connection(AWSQueryConnection):
         :param new_value: The new value of the attribute.
         """
         params = {'VolumeId': volume_id}
-        if attribute in ('AutoEnableIO', 'Description', 'Size', 'TierType', "Iops"):
+        if attribute in ('AutoEnableIO', 'Description', 'Size', "Iops"):
             params[attribute + '.Value'] = new_value
         return self.get_status('ModifyVolumeAttribute', params, verb='POST')
 
     def create_volume(self, size, zone, snapshot=None,
-                      volume_type=None, iops=None, tier_type=None):
+                      volume_type=None, iops=None):
         """
         Create a new EBS Volume.
 
@@ -2104,9 +2104,6 @@ class EC2Connection(AWSQueryConnection):
         :type iops: int
         :param iops: The provisioned IOPs you want to associate with
             this volume. (optional)
-
-        :type tier_type: string
-        :param tier_type: Tier type ID on which the new Volume will be created.
         """
         if isinstance(zone, Zone):
             zone = zone.name
@@ -2121,8 +2118,6 @@ class EC2Connection(AWSQueryConnection):
             params['VolumeType'] = volume_type
         if iops:
             params['Iops'] = str(iops)
-        if tier_type:
-            params['TierType'] = tier_type
         return self.get_object('CreateVolume', params, Volume, verb='POST')
 
     def delete_volume(self, volume_id):
@@ -3870,8 +3865,10 @@ class EC2Connection(AWSQueryConnection):
                                  verb='POST')
         return image
 
-    def describe_account_attributes(self, attribute_names=None):
+    def describe_account_attributes(self, attribute_names=None, availability_zone=None):
         params = {}
+        if availability_zone:
+            params["AvailabilityZone"] = availability_zone
         if attribute_names is not None:
             self.build_list_params(params, attribute_names, 'AttributeName')
         return self.get_list('DescribeAccountAttributes', params,
@@ -3950,17 +3947,6 @@ class EC2Connection(AWSQueryConnection):
 
         return self.get_list('SuspendInstances', params, [('item', Instance)], verb='POST')
 
-   # Tier types
-
-    def get_all_tier_types(self):
-        """
-        Get all available tier types.
-
-        :rtype: list of :class:`boto.ec2.volume.TierType`
-        :return: The requested TierType objects
-        """
-        return self.get_list('DescribeTierTypes', {},
-                             [('item', TierType)], verb='POST')
 
     # External networks
 

@@ -41,10 +41,7 @@ class BlockDeviceType(object):
                  iops=None,
                  snapshot_size=None,
                  snapshot_description=None,
-                 attach_type=None,
-                 tier_type=None,
-                 tier_name=None,
-                 tier_replication=None):
+                 attach_type=None):
         self.connection = connection
         self.ephemeral_name = ephemeral_name
         self.no_device = no_device
@@ -59,9 +56,6 @@ class BlockDeviceType(object):
         self.snapshot_size = snapshot_size
         self.snapshot_description = snapshot_description
         self.attach_type = attach_type
-        self.tier_type = tier_type
-        self.tier_name = tier_name
-        self.tier_replication = tier_replication
         self.is_bootable = False
 
     def startElement(self, name, attrs, connection):
@@ -94,12 +88,6 @@ class BlockDeviceType(object):
             self.snapshot_description = value
         elif name == "attachType":
             self.attach_type = value
-        elif name == "tierType":
-            self.tier_type = value
-        elif name == "tierName":
-            self.tier_name = value
-        elif name == "tierReplication":
-            self.tier_replication = (value.lower() == 'true')
         elif name == "isBootable":
             self.is_bootable = (value == 'true')
         else:
