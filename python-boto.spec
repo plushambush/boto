@@ -9,7 +9,7 @@
 Summary:        A simple lightweight interface to Amazon Web Services
 Name:           python-%{pkgname}
 Version:        2.12.0
-Release:        CROC7%{?buildid}%{?dist}
+Release:        CROC8%{?buildid}%{?dist}
 Epoch:          1441065600
 
 Group:          Development/Languages
@@ -54,6 +54,14 @@ use, lightweight wrapper around the Amazon services.
 [ "%buildroot" = "/" ] || rm -rf "%buildroot"
 
 %changelog
+* Fri Dec 30 2016 Mikhail Ushanov <gm.mephisto@gmail.com> - 2.12.0-8
+- Fix unittest
+- vpc: remove AZ field from vpcs api
+
+* Wed Jun 22 2016 Mikhail Ushanov <gm.mephisto@gmail.com> - 2.12.0-7
+- EC2: remove tiers
+- Add availability zone argument to describe_account_attribute
+
 * Mon Apr 04 2016 Mikhail Ushanov <gm.mephisto@gmail.com> - 2.12.0-6
 - ec2: remove 'snapshot_instance' c2-specific API method
 - Fixed a date bug in the trim_snapshots tests.
